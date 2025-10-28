@@ -1,8 +1,9 @@
-FROM node:18.12.1-alpine3.16
+FROM node:20-alpine
 
 USER node
 
 WORKDIR /home/node
 COPY --chown=node:node package.json ./
 
-RUN npm install
+RUN --mount=type=cache,id=npm-cache,uid=1000,target=/home/node/.npm \
+	npm install --loglevel=info
